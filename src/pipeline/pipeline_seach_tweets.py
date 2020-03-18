@@ -45,7 +45,7 @@ class TweetSearch:
 
             if (n_tweets % 100000) == 0:
                 self.__n_files += 1
-                self.__dump_file(filename=f"tweets_{self.query}_{self.__n_files}.json.gz")
+                self.__dump_file(filename=f"tweets_{'-'.join(self.query)}_{self.__n_files}.json.gz")
                 self.tweets.clear()
             logger.info(
                 f"Gathered {n_tweets} tweets: datetime={tweets['statuses'][0]['created_at']} max_id={max_id} n_files={self.__n_files}")
