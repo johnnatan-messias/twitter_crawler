@@ -1,0 +1,11 @@
+py
+pytest
+pytest-html
+pytest-metadata
+pytz
+PyYAML
+tzlocal
+pandas
+numpy
+tqdm
+psycopg2
