@@ -11,6 +11,7 @@ def main(args):
     logger.info("START: Main Application")
     ApplicationPaths.makedirs()
     if args.method == 'search':
+        logger.info(f"search for query={args.query}")
         PipelineFactory.crawl_tweets(
             query=args.query, lang='pt', result_type='mixed')
     logger.info("END: Main Application")
