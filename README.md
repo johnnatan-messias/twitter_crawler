@@ -2,12 +2,17 @@
 
 ## How to run
 ----------
-
+You can search for a single word:
 ```bash
 cd src
 python run.py --method=search --query=corona
 ```
 
+Or for multiple words as the following:
+```bash
+cd src
+python run.py --method=search --query="corona OR covid"
+```
 
 ## What's New
 ----------
