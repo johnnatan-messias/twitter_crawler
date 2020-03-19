@@ -9,3 +9,4 @@ pandas
 numpy
 tqdm
 psycopg2
+tweepy
