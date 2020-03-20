@@ -16,10 +16,12 @@ class TweetSearch:
         self.tweets = list()
         self.n_threads = n_threads
         self.__n_files = 0
+        self.max_id = None
 
     def execute(self):
         logger.info(
             f"START: crawling tweets -- query={self.query}, lang={self.lang}, result_type={self.result_type}")
+        self.__load_last_status()
         self.__crawl_tweets()
         # self.__dump_file(filename='tweets_{}.json.gz')
         logger.info("DONE: crawling tweets")
@@ -28,8 +30,12 @@ class TweetSearch:
         n_tweets = 0
         n_requests = 1
         logger.info('START: Tweets Crawler')
-        tweets = self.twitter.search(
-            query=self.query, lang=self.lang, result_type=self.result_type)
+        if self.max_id is None:
+            tweets = self.twitter.search(
+                query=self.query, lang=self.lang, result_type=self.result_type)
+        else:
+            tweets = self.twitter.search(
+                query=self.query, lang=self.lang, result_type=self.result_type, max_id=self.max_id-1)
         self.tweets += tweets['statuses']
         max_id = self.tweets[-1]['id']
         n_tweets += len(tweets['statuses'])
@@ -59,6 +65,17 @@ class TweetSearch:
 
     def __dump_file(self, filename):
         FileManager.dump_json(filename=filename, data=self.tweets)
+
+    def __load_last_status(self):
+        logger.info('Loading ids')
+        filenames = FileManager.get_dataset_filenames(query='-'.join(self.query.split()))
+        if len(filenames) > 0: 
+            inFile = FileManager.yield_json_file(filename=filenames[-1])
+            for tweet in inFile:
+                pass
+            self.max_id = tweet['id']
+            self.__n_files += len(filenames)
+            logger.info(f"Found: id={self.max_id} n_files={self.__n_files} posted on {tweet['created_at']}")
 
 
 '''

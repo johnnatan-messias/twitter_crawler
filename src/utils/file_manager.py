@@ -58,6 +58,13 @@ class FileManager:
         return os.path.isfile(filename)
 
     @staticmethod
+    def get_dataset_filenames(query):
+        filenames = [filename for filename in os.listdir(
+            ApplicationPaths.dataset()) if query in filename]
+        filenames.sort()
+        return filenames
+
+    @staticmethod
     def load_dataframe(filename, usecols=None, nrows=None, sep=';', compression='gzip'):
         logger.info("START: Load dataframe=%s" %
                     ApplicationPaths.dataset() + filename)
